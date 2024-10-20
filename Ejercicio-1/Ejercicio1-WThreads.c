@@ -46,7 +46,7 @@ int main() {
     }
 
     return 0;
-};
+}
 
 void *print_string(void *arg) 
 {
@@ -58,4 +58,4 @@ void *print_string(void *arg)
     }
 
     return NULL;
-};
+}

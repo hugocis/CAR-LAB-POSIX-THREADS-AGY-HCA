@@ -84,7 +84,7 @@ int main() {
     }
 
     return 0;
-};
+}
 
 void *print_string(void *arg) {
     ThreadData *data = (ThreadData *)arg;
@@ -95,18 +95,18 @@ void *print_string(void *arg) {
     }
 
     return NULL;
-};
+}
 
 void print_string_sequential(ThreadData *data) {
     for (int i = 1; i <= data->repeat_count; ++i) {
         printf("Secuencial (%d): %d %s\n", data->id, i, data->string);
         sleep(1); // Simulamos tiempo
     }
-};
+}
 
 void get_time_diff(struct timespec start, struct timespec end, double *seconds) {
     *seconds = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-};
+}
 
 void RAMCPUTiempo() {
     struct rusage usage;
@@ -118,4 +118,4 @@ void RAMCPUTiempo() {
 
     // RAM
     printf("RAM: %ld KB\n", usage.ru_maxrss);
-};
+}

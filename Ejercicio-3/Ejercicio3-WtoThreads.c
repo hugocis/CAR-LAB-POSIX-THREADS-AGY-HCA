@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 #define TAM 20 // Definimos el tamaño del vector como 20
-#define PARTES 4 // Definimos el número de partes en las que dividimos el vector
-#define OBJETIVO 6 // Número que vamos a buscar en el vector
+#define PARTES 2 // Definimos el número de partes en las que dividimos el vector
+#define OBJETIVO 2 // Número que vamos a buscar en el vector
 
 // Función para contar las ocurrencias del número objetivo en una parte específica del vector
 int contar_ocurrencias(int vec[], int inicio, int fin) {

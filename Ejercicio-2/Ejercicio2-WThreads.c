@@ -85,7 +85,7 @@ int main() {
     print_memory_use();
 
     return 0; // Finalizamos el programa
-};
+}
 
 // Función para que cada hilo sume una fila de las matrices
 void *sumar_fila(void *arg) {
@@ -97,7 +97,7 @@ void *sumar_fila(void *arg) {
     }
 
     return NULL;
-};
+}
 
 // Función para imprimir el uso de memoria
 void memory_use() {
@@ -116,4 +116,4 @@ void memory_use() {
     }
 
     fclose(file); // Cerramos el archivo
-};
+}

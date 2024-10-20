@@ -4,6 +4,7 @@
 ### C ###
 # Prerequisites
 *.d
+output
 
 # Object files
 *.o

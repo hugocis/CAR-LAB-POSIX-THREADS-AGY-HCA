@@ -50,11 +50,11 @@ int main() {
     }
 
     return 0;
-};
+}
 
 void print_string(int number, const char *str) {
     for (int i = 1; i <= number; i++) {
         printf("iteración (%d): %s\n", i, str); 
 
     }
-};
+}

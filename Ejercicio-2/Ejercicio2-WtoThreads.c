@@ -82,7 +82,7 @@ int main()
     get_memory_usage();
 
     return 0;
-};
+}
 
 ///
 /// Funciones 
@@ -94,7 +94,7 @@ void sumar_fila(int A[TAM][TAM], int B[TAM][TAM], int result[TAM][TAM], int row)
     {
         result[row][j] = A[row][j] + B[row][j]; 
     }
-};
+}
 
 void get_memory_usage()
 {
@@ -110,4 +110,4 @@ void get_memory_usage()
     }
     fclose(file);
     printf("\n");
-};
+}
