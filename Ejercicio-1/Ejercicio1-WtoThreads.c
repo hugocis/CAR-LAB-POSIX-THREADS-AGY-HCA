@@ -3,11 +3,7 @@
 #include <time.h>  
 #include <unistd.h>  
 
-void print_string(int number, const char *str) {
-    for (int i = 1; i <= number; i++) {
-        printf("iteration (%d): %s\n", i, str);  
-    }
-}
+void print_string();
 
 int main() {
     int number;
@@ -16,42 +12,49 @@ int main() {
     double cpu_time_used;
 
     while (1) {
-        // Number and String from the user
-        printf("Input a number: ");
-        if (scanf("%d", &number) != 1 || number <= 0) {  //Check no negativo or 0 value
-            printf("Please enter a valid positive number.\n");
-            break;  // Exit loop if invalid input );
+        
+        printf("Introduce un número de impresión: ");
+        if (scanf("%d", &number) != 1 || number <= 0) {  
+            printf("Por favor pon un número positivo.\n");
+            break;  
         }
         
-        // Input 1st string 
-        printf("Input first string: ");
-        scanf(" %[^\n]", first_string);  // Read characters + spaces
+        // Introducir primer string 
+        printf("Introduce la primera frase: ");
+        scanf(" %[^\n]", first_string);
         
-        // Input the 2nd string
-        printf("Input second string: ");
+        // Introducir segundo string 
+        printf("Introduce la segunda frase: ");
         scanf(" %[^\n]", second_string);
         
-        // Start clock 
+        // Se empieza un reloj 
         start = clock();
         
-        // Print the first string number of times introduced
+        // Se imprime el primer string de seguido
         print_string(number, first_string);
 
-        // Print the first string number of times introduced
+        // Se imprime el segundo string de seguido
         print_string(number, second_string);
         
-        // Stop clock and calculate the total time
+        // Se para el reloj y se calcula la diferencia de tiempo para saber cuánto ha tardado.
         end = clock();
         cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-        // print time used 
-        printf("\nTime taken to execute: %.4f seconds\n", cpu_time_used);
+        // El timeo de uso de CPU
+        printf("\nTiempo que ha tardado en la CPU: %.4f segundos\n", cpu_time_used);
 
-        // print num of CPUs
-        printf("Number of processors available: %ld\n", sysconf(_SC_NPROCESSORS_ONLN));
+        // Número de CPUs
+        printf("Número de núcelos en el sistema: %ld\n", sysconf(_SC_NPROCESSORS_ONLN));
 
         printf("\n");
     }
 
     return 0;
-}
+};
+
+void print_string(int number, const char *str) {
+    for (int i = 1; i <= number; i++) {
+        printf("iteración (%d): %s\n", i, str); 
+
+    }
+};

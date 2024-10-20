@@ -8,18 +8,17 @@
 #include <time.h>
 #include <sys/resource.h>
 
-// Declaración de la estructura ThreadData
 typedef struct {
     int id;
     char *string;
     int repeat_count;
-} ThreadData;
+} ThreadData; // Struct con los datos a meter para el hilo.
 
-// Prototipos de las funciones
+// Funciones a utilizar
 void *print_string(void *arg);
 void print_string_sequential(ThreadData *data);
 void get_time_diff(struct timespec start, struct timespec end, double *seconds);
-void measure_resource_usage();
+void RAMCPUTiempo();
 
 int main() {
     int number;
@@ -27,99 +26,96 @@ int main() {
     pthread_t thread1, thread2;
 
     while (1) {
-        // Input number and strings from user
-        printf("Input a number: ");
+        printf("Introduce un número: ");
         scanf("%d", &number);
-        getchar(); // To consume newline left by scanf
-        printf("Input first string: ");
+        getchar(); // Para el /n del scanf
+        printf("Introduce primera frase: ");
         fgets(str1, sizeof(str1), stdin);
-        printf("Input second string: ");
+        printf("Introduce segunda frase: ");
         fgets(str2, sizeof(str2), stdin);
 
-        // Remove newline characters from strings
+        // Quitar el \n del scanf
         str1[strcspn(str1, "\n")] = 0;
         str2[strcspn(str2, "\n")] = 0;
 
-        // Thread data for each thread
+        // Con el struct, creamos dos estancias para nuestros dos hilos y los llenamos con nuestros hilos.
         ThreadData data1 = {1, str1, number};
         ThreadData data2 = {2, str2, number};
 
-        printf("\n--- Running with Threads ---\n");
-        // Variables to hold the start and end time
+        printf("\n--- Ejecutando con hilos ---\n");
+        // Se empieza el reloj
         struct timespec start, end;
         clock_gettime(CLOCK_MONOTONIC, &start);
 
-        // Create two threads
+        // Se crean los dos hilos con la función y el struc de datos
         pthread_create(&thread1, NULL, print_string, &data1);
         pthread_create(&thread2, NULL, print_string, &data2);
 
-        // Wait for both threads to finish
+        // Esperamos a que terminen
         pthread_join(thread1, NULL);
         pthread_join(thread2, NULL);
 
-        // Measure end time and calculate total duration
+        // Medimos la diferencia de tiempo con el reloj
         clock_gettime(CLOCK_MONOTONIC, &end);
-        double total_seconds;
-        get_time_diff(start, end, &total_seconds);
-        printf("Total execution time with threads: %.6f seconds\n", total_seconds);
+        double segundos;
+        get_time_diff(start, end, &segundos);
+        printf("Total execution time with threads: %.6f seconds\n", segundos);
 
-        // Measure resource usage (CPU and memory)
-        measure_resource_usage();
+        // Memoria usada de CPU y RAM
+        RAMCPUTiempo();
 
-        printf("\n--- Running Sequentially ---\n");
-        // Measure start time for sequential execution
+        printf("\n--- Ejecución Sequencial ---\n");
+        // Se empieza el reloj
         clock_gettime(CLOCK_MONOTONIC, &start);
 
-        // Run sequentially
+        // Se imprime de forma secuencial
         print_string_sequential(&data1);
         print_string_sequential(&data2);
 
-        // Measure end time and calculate total duration
+        // Se calcula ña diferencia de tiempo
         clock_gettime(CLOCK_MONOTONIC, &end);
-        get_time_diff(start, end, &total_seconds);
-        printf("Total execution time without threads: %.6f seconds\n", total_seconds);
+        get_time_diff(start, end, &segundos);
+        printf("Tiempo de ejecución sin hilos: %.6f segundos\n", segundos);
 
-        // Measure resource usage for sequential run
-        measure_resource_usage();
+        // Tiempo de CPU y RAM sin hilos.
+        RAMCPUTiempo();
 
         printf("\n");
     }
 
     return 0;
-}
+};
 
 void *print_string(void *arg) {
     ThreadData *data = (ThreadData *)arg;
 
     for (int i = 1; i <= data->repeat_count; ++i) {
-        printf("thread (%d): %d %s\n", data->id, i, data->string);
-        sleep(1); // Simulate some work
+        printf("Hilo (%d): %d %s\n", data->id, i, data->string);
+        sleep(1); // Simulamos tiempo 
     }
 
     return NULL;
-}
+};
 
 void print_string_sequential(ThreadData *data) {
     for (int i = 1; i <= data->repeat_count; ++i) {
-        printf("sequential (%d): %d %s\n", data->id, i, data->string);
-        sleep(1); // Simulate some work
+        printf("Secuencial (%d): %d %s\n", data->id, i, data->string);
+        sleep(1); // Simulamos tiempo
     }
-}
+};
 
 void get_time_diff(struct timespec start, struct timespec end, double *seconds) {
     *seconds = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-}
+};
 
-void measure_resource_usage() {
+void RAMCPUTiempo() {
     struct rusage usage;
     getrusage(RUSAGE_SELF, &usage);
 
-    // Display CPU usage
-    double user_cpu_time = usage.ru_utime.tv_sec + usage.ru_utime.tv_usec / 1e6;
+    // CPU
     double system_cpu_time = usage.ru_stime.tv_sec + usage.ru_stime.tv_usec / 1e6;
-    printf("User CPU time used: %.6f seconds\n", user_cpu_time);
-    printf("System CPU time used: %.6f seconds\n", system_cpu_time);
+    printf("CPU: %.6f seconds\n", system_cpu_time);
 
-    // Display memory usage (in kilobytes)
-    printf("Maximum resident set size (memory): %ld KB\n", usage.ru_maxrss);
-}
+    // RAM
+    printf("RAM: %ld KB\n", usage.ru_maxrss);
+};

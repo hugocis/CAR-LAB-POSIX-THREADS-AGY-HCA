@@ -79,8 +79,7 @@ int main() {
 
     // Calculamos el tiempo que ha tardado
     long seconds = (end.tv_sec - start.tv_sec);  // Calculamos los segundos
-    long micros = ((seconds * 1000000) + end.tv_usec) - start.tv_usec; // Convertimos a microsegundos
-    printf("Tiempo de ejecución: %ld microsegundos\n", micros);
+    printf("Tiempo de ejecución: %ld segundos\n", seconds);
 
     // Imprimimos el uso de memoria
     print_memory_use();

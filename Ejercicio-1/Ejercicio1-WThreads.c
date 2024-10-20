@@ -10,7 +10,7 @@ typedef struct {
     int id;
     char *string;
     int repeat_count;
-} ThreadData;
+} ThreadData; // Struct con lo que necesita el hilo
 
 int main() {
     int number;
@@ -18,28 +18,27 @@ int main() {
     pthread_t thread1, thread2;
 
     while (1) {
-        // Input number and strings from user
-        printf("Input a number: ");
+        printf("Introduce un número ");
         scanf("%d", &number);
-        getchar(); // To consume newline left by scanf
-        printf("Input first string: ");
+        getchar(); // Para quitar el /n
+        printf("Introduce la primera frase: ");
         fgets(str1, sizeof(str1), stdin);
-        printf("Input second string: ");
+        printf("Introduce la segunda frase: ");
         fgets(str2, sizeof(str2), stdin);
 
-        // Remove newline characters from strings
+        // Eliminamos el \n del string.
         str1[strcspn(str1, "\n")] = 0;
         str2[strcspn(str2, "\n")] = 0;
 
-        // Thread data for each thread
+        // Creamos, con el struct creado con anterioridad, dos ejemplos que son lo que vamos a crear.
         ThreadData data1 = {1026, str1, number};
         ThreadData data2 = {2051, str2, number};
 
-        // Create two threads
+        // Creamos los dos hilos que hacen la función de imprimir junto con sus datos del struct.
         pthread_create(&thread1, NULL, print_string, &data1);
         pthread_create(&thread2, NULL, print_string, &data2);
 
-        // Wait for both threads to finish
+        // Esperar a que los hilos terminen
         pthread_join(thread1, NULL);
         pthread_join(thread2, NULL);
 
@@ -47,15 +46,16 @@ int main() {
     }
 
     return 0;
-}
+};
 
-void *print_string(void *arg) {
+void *print_string(void *arg) 
+{
     ThreadData *data = (ThreadData *)arg;
 
     for (int i = 1; i <= data->repeat_count; ++i) {
-        printf("thread (%d): %d %s\n", data->id, i, data->string);
-        sleep(1); // Simulate some work
+        printf("Hilo (%d): %d %s\n", data->id, i, data->string);
+        sleep(1); 
     }
 
     return NULL;
-}
+};
