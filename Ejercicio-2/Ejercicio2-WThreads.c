@@ -10,7 +10,7 @@
 
 // Definimos algunas funciones auxiliares que vamos a usar después
 void *sumar_fila(void *arg);  
-void print_memory_use();
+void memory_use();
 
 // Estructura que pasamos a cada thread (hilo)
 typedef struct {
@@ -101,7 +101,7 @@ void *sumar_fila(void *arg) {
 };
 
 // Función para imprimir el uso de memoria
-void print_memory_use() {
+void memory_use() {
     FILE* file = fopen("/proc/self/status", "r"); // Abrimos el archivo con el estado del proceso
     if (file == NULL) {
         perror("Error al abrir /proc/self/status");
