@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
+#include <time.h> // Para medir el tiempo de ejecución
 
 #define VECTOR_SIZE 20
 #define NUM_THREADS 4
@@ -20,6 +21,8 @@ int main() {
     pthread_t threads[NUM_THREADS];
     ThreadData data[NUM_THREADS];
     int total_occurrences = 0;
+    clock_t start_time, end_time;
+    double time_taken;
 
     printf("Introduce 20 elementos para el array:\n");
     for (int i = 0; i < VECTOR_SIZE; i++) {
@@ -29,7 +32,10 @@ int main() {
     printf("Introduce el número a buscar: ");
     scanf("%d", &target_number);
 
-    // Cada hilo que se cree es como se dividirá el array, en este caso 4. 
+    // Inicia el conteo del tiempo
+    start_time = clock();
+
+    // Cada hilo que se cree es como se dividirá el array, en este caso 4.
     int partition_size = VECTOR_SIZE / NUM_THREADS;
     for (int i = 0; i < NUM_THREADS; i++) {
         data[i].start = i * partition_size;
@@ -44,8 +50,17 @@ int main() {
         total_occurrences += occurrences[i];
     }
 
+    // Finaliza el conteo del tiempo
+    end_time = clock();
+
+    // Calcula el tiempo en segundos
+    time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+
     // Se imprime el número total de ocurrencias del número en el array
     printf("Se han encontrado %d en el array: %d\n", target_number, total_occurrences);
+
+    // Se imprime el tiempo que tomó el proceso
+    printf("El tiempo de ejecución fue: %.6f segundos\n", time_taken);
 
     return 0;
 }

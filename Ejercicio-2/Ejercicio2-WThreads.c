@@ -81,9 +81,6 @@ int main() {
     long seconds = (end.tv_sec - start.tv_sec);  // Calculamos los segundos
     printf("Tiempo de ejecución: %ld segundos\n", seconds);
 
-    // Imprimimos el uso de memoria
-    print_memory_use();
-
     return 0; // Finalizamos el programa
 }
 
