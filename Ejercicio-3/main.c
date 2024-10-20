@@ -6,7 +6,7 @@
 
 int vector[VECTOR_SIZE];
 int target_number;
-int occurrences[NUM_THREADS] = {0}; // To store occurrences by each thread
+int occurrences[NUM_THREADS] = {0}; 
 
 void *count_occurrences(void *arg);
 
@@ -21,17 +21,15 @@ int main() {
     ThreadData data[NUM_THREADS];
     int total_occurrences = 0;
 
-    // Input vector elements
-    printf("Enter 20 elements of the vector:\n");
+    printf("Introduce 20 elementos para el array:\n");
     for (int i = 0; i < VECTOR_SIZE; i++) {
         scanf("%d", &vector[i]);
     }
 
-    // Input the target number to find occurrences
-    printf("Enter the number to find: ");
+    printf("Introduce el número a buscar: ");
     scanf("%d", &target_number);
 
-    // Create 4 threads to search in parts of the vector
+    // Cada hilo que se cree es como se dividirá el array, en este caso 4. 
     int partition_size = VECTOR_SIZE / NUM_THREADS;
     for (int i = 0; i < NUM_THREADS; i++) {
         data[i].start = i * partition_size;
@@ -40,14 +38,14 @@ int main() {
         pthread_create(&threads[i], NULL, count_occurrences, &data[i]);
     }
 
-    // Wait for all threads to finish and collect results
+    // Se espera a que terminen los hilos.
     for (int i = 0; i < NUM_THREADS; i++) {
         pthread_join(threads[i], NULL);
         total_occurrences += occurrences[i];
     }
 
-    // Print the total occurrences found
-    printf("Total occurrences of %d: %d\n", target_number, total_occurrences);
+    // Se imprime el número total de ocurrencias del número en el array
+    printf("Se han encontrado %d en el array: %d\n", target_number, total_occurrences);
 
     return 0;
 }
