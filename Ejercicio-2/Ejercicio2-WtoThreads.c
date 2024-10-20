@@ -4,18 +4,26 @@
 #include <unistd.h> // Para conseguir información del sistema.
 #include <string.h> // Para operaciones con strings.
 
+///
+/// Definiciones 
+///
+
 #define SIZE 3 // Definimos la el tamaño de la matriz.
 
 // Función que ayuda a suar dos componentes y meterlos en una fila.
-void add_row(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row);
+void sumar_fila(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row);
 // Función que nos da la información del sistema del /proc/self/status
 void get_memory_usage();
 
+///
+/// Main 
+///
+
 int main()
 {
-    // Definimos las variables
+    // Definimos las variables.
     int A[SIZE][SIZE], B[SIZE][SIZE], result[SIZE][SIZE]; // Tamaño de la matriz.
-    clock_t start, end;                                   // Para calcular el tiempo
+    clock_t start, end;                                   // Para calcular el tiempo.
     double cpu_time_used;
 
     // Meter los elementos de la matriz A.
@@ -28,6 +36,7 @@ int main()
             scanf("%d", &A[i][j]);
         }
     }
+    printf("\n");
 
     // Meter los elementos para la matriz B.
     printf("Teclea los elementos de la matriz B (3x3):\n");
@@ -39,6 +48,7 @@ int main()
             scanf("%d", &B[i][j]);
         }
     }
+    printf("\n");
 
     // Se emepieza a calcular el tiempo.
     start = clock();
@@ -46,14 +56,14 @@ int main()
     // Se suman cada fila de forma secuencial.
     for (int i = 0; i < SIZE; i++)
     {
-        add_row(A, B, result, i);
+        sumar_fila(A, B, result, i);
     }
 
     // Se acaba el tiempo.
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
-    // Se imprime la matriz resultante
+    // Se imprime la matriz resultante.
     printf("\nResultado de la suma (A + B):\n");
     for (int i = 0; i < SIZE; i++)
     {
@@ -64,17 +74,28 @@ int main()
         printf("\n");
     }
 
-    // Se imprime el tiempo de ejecución
+    // Se imprime el tiempo de ejecución.
     printf("\nTiempo de ejecución: %.4f segundos.\n", cpu_time_used);
 
-    // Get and print memory usage
+    // Imprimir info de la memoria.
     printf("Memoria usada (RSS):\n");
     get_memory_usage();
 
     return 0;
-}
+};
 
-// Function to get memory usage from /proc/self/status
+///
+/// Funciones 
+///
+
+void sumar_fila(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row)
+{
+    for (int j = 0; j < SIZE; j++)
+    {
+        result[row][j] = A[row][j] + B[row][j]; 
+    }
+};
+
 void get_memory_usage()
 {
     FILE *file = fopen("/proc/self/status", "r");
@@ -83,18 +104,10 @@ void get_memory_usage()
     {
         if (strncmp(line, "VmRSS:", 6) == 0)
         {
-            printf("%s", line); // Print the memory usage line (Resident Set Size)
+            printf("%s", line); 
             break;
         }
     }
     fclose(file);
-}
-
-// Function to add two rows of matrices A and B
-void add_row(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row)
-{
-    for (int j = 0; j < SIZE; j++)
-    {
-        result[row][j] = A[row][j] + B[row][j]; // Add elements of the corresponding row
-    }
-}
+    printf("\n");
+};
