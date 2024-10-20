@@ -8,10 +8,10 @@
 /// Definiciones 
 ///
 
-#define SIZE 3 // Definimos la el tamaño de la matriz.
+#define TAM 3 // Definimos la el tamaño de la matriz.
 
 // Función que ayuda a suar dos componentes y meterlos en una fila.
-void sumar_fila(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row);
+void sumar_fila(int A[TAM][TAM], int B[TAM][TAM], int result[TAM][TAM], int row);
 // Función que nos da la información del sistema del /proc/self/status
 void get_memory_usage();
 
@@ -22,15 +22,15 @@ void get_memory_usage();
 int main()
 {
     // Definimos las variables.
-    int A[SIZE][SIZE], B[SIZE][SIZE], result[SIZE][SIZE]; // Tamaño de la matriz.
+    int A[TAM][TAM], B[TAM][TAM], result[TAM][TAM]; // Tamaño de la matriz.
     clock_t start, end;                                   // Para calcular el tiempo.
     double cpu_time_used;
 
     // Meter los elementos de la matriz A.
     printf("Teclea los elementos de la matriz A (3x3):\n");
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < TAM; i++)
     {
-        for (int j = 0; j < SIZE; j++)
+        for (int j = 0; j < TAM; j++)
         {
             printf("A[%d][%d]: ", i, j);
             scanf("%d", &A[i][j]);
@@ -40,9 +40,9 @@ int main()
 
     // Meter los elementos para la matriz B.
     printf("Teclea los elementos de la matriz B (3x3):\n");
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < TAM; i++)
     {
-        for (int j = 0; j < SIZE; j++)
+        for (int j = 0; j < TAM; j++)
         {
             printf("B[%d][%d]: ", i, j);
             scanf("%d", &B[i][j]);
@@ -54,7 +54,7 @@ int main()
     start = clock();
 
     // Se suman cada fila de forma secuencial.
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < TAM; i++)
     {
         sumar_fila(A, B, result, i);
     }
@@ -65,9 +65,9 @@ int main()
 
     // Se imprime la matriz resultante.
     printf("\nResultado de la suma (A + B):\n");
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < TAM; i++)
     {
-        for (int j = 0; j < SIZE; j++)
+        for (int j = 0; j < TAM; j++)
         {
             printf("%d ", result[i][j]);
         }
@@ -88,9 +88,9 @@ int main()
 /// Funciones 
 ///
 
-void sumar_fila(int A[SIZE][SIZE], int B[SIZE][SIZE], int result[SIZE][SIZE], int row)
+void sumar_fila(int A[TAM][TAM], int B[TAM][TAM], int result[TAM][TAM], int row)
 {
-    for (int j = 0; j < SIZE; j++)
+    for (int j = 0; j < TAM; j++)
     {
         result[row][j] = A[row][j] + B[row][j]; 
     }
